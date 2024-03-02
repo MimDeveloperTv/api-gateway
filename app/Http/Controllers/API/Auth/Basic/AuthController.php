@@ -12,13 +12,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class AuthController extends AccessTokenController
 {
-    public const TOKEN_NAME = 'USER_GENERATION_TOKEN';
-    public function register(Request $request)
-    {}
-
-    /**
-     * @throws ValidationException
-     */
     public function login(ServerRequestInterface $request)
     {
        // validation mobile & password : coming soon
@@ -52,6 +45,13 @@ class AuthController extends AccessTokenController
         $token = $request->user()->token();
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
+        return response($response, 200);
+    }
+
+    public function validateToken(Request $request)
+    {
+        $token = $request->user()->token();
+        $response = ['message' => 'validated'];
         return response($response, 200);
     }
 }

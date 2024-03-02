@@ -14,8 +14,6 @@ use Laravel\Passport\RefreshTokenRepository;
 
 class AuthController extends AccessTokenController
 {
-    public const TOKEN_NAME = 'USER_GENERATION_TOKEN';
-
     public function login(ServerRequestInterface $request): Response
     {
         // validation mobile & password : coming soon

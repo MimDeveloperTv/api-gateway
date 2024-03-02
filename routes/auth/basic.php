@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'basic', 'as' => 'basic.'], function () {
     Route::post('/login',[Auth::class,'login'])->name('auth.login');
-    Route::post('/register',[Auth::class,'register'])->name('auth.register');
-    Route::post('/logout',[Auth::class,'logout'])->name('auth.logout')->middleware('auth:api');
+
+    Route::middleware('auth:api')->group( function () {
+        Route::post('/validate-token',[Auth::class,'validateToken'])->name('auth.validate');
+        Route::post('/logout',[Auth::class,'logout'])->name('auth.logout');
+    });
 });
