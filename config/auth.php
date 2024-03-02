@@ -104,6 +104,15 @@ return [
         ],
     ],
 
+    'oauth' => [
+        'clients' => [
+            'users' => [
+                'secret' =>  env('APP_ALLOWED_NULL_CLIENT_SECRET'),
+                'id' =>  env('APP_ALLOWED_NULL__CLIENT_ID'),
+            ],
+        ],
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout

@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\API\Auth\Pass;
 
 use App\Enum\Fields;
+use App\Http\Controllers\API\Auth\BaseAuthController;
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\UnauthorizedException;
+use Laravel\Passport\Client;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Http\Response;
 use Laravel\Passport\TokenRepository;
 use Laravel\Passport\RefreshTokenRepository;
 
-class AuthController extends AccessTokenController
+class AuthController extends BaseAuthController
 {
     public function login(ServerRequestInterface $request): Response
     {
-        // validation mobile & password : coming soon
-        return $this->issueToken($request);
+        $user = $this->checkUserGroup();
+        return $this->makeToken($request);
     }
     public function register(Request $request)
     {

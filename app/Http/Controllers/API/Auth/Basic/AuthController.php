@@ -3,25 +3,18 @@
 namespace App\Http\Controllers\API\Auth\Basic;
 
 use App\Enum\UserGroup;
+use App\Http\Controllers\API\Auth\BaseAuthController;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\UnauthorizedException;
-use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Psr\Http\Message\ServerRequestInterface;
 
-class AuthController extends AccessTokenController
+class AuthController extends BaseAuthController
 {
     public function login(ServerRequestInterface $request)
     {
-        // validation mobile & password : coming soon
-        $user = User::query()->where('phone', request('username'))->first()->toArray();
-        $checkPassword = Hash::check(request('password'), data_get($user, 'password'));
-        abort_unless($checkPassword, 401, UnauthorizedException::class);
-
-        $tokenOperation = $this->issueToken($request);
+        $user =  $this->checkUserGroup();
+        $tokenOperation = $this->makeToken($request);
         $token = json_decode($tokenOperation->content(), true);
-        $accessToken = data_get($token, 'access_token');
 
         $response = [
             'response_code' => 'auth_login_200',

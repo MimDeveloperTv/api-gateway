@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 /* -----  API Routes --------------------------------------------------------------------- */
 
-Route::group(['prefix' => 'pass', 'as' => 'pass.'], function () {
-    Route::post('/login',[Auth::class,'login'])->middleware('throttle')->name('auth.login');
+Route::group(['prefix' => 'pass', 'as' => 'pass.','middleware' => ['secret.check','throttle']], function () {
+    Route::post('/login',[Auth::class,'login']) ->name('auth.login');
     // Route::post('/register',[Auth::class,'register'])->name('auth.register');
 
     Route::middleware('auth:api')->group( function () {
